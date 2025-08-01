@@ -8,9 +8,12 @@ services:
     volumes:
       - .:/home/jovyan/project
     
+    env_file:
+      - .env
+
     working_dir: /home/jovyan/project/workspace
     container_name: jupyter-lab-pro-project
-    
+
     command: >
       jupyter lab
       --notebook-dir=/home/jovyan/project/workspace

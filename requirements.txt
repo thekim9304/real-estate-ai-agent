@@ -6,8 +6,12 @@ seaborn
 scikit-learn
 tensorflow
 
+# LLM
+openai==1.70.0
+
 # 기타 유틸리티
 tqdm
+xmltodict
 
 ## 쥬피터랩 익스텐션
 jupyterlab-lsp
