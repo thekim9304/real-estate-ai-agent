@@ -12,7 +12,13 @@ openai==1.70.0
 # 기타 유틸리티
 tqdm
 xmltodict
+requests
 
 ## 쥬피터랩 익스텐션
 jupyterlab-lsp
 python-lsp-server
+
+## 웹 페이지
+fastapi
+uvicorn[standard]
+streamlit
