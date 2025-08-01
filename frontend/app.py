@@ -5,6 +5,12 @@ import requests
 st.set_page_config(page_title="부동산 QA AI 에이전트", page_icon="🤖")
 st.title("🤖 부동산 QA AI 에이전트")
 
+# 세션 상태 초기화
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "session_id" not in st.session_state:
+    st.session_state.session_id = None # 세션 ID 초기화
+
 # --- 세션 상태 관리 ---
 # st.session_state에 'messages'가 없으면, 초기 메시지를 설정합니다.
 # 이 'messages' 리스트가 대화의 전체 기록을 저장하는 '기억' 역할을 합니다.
@@ -32,19 +38,20 @@ if prompt := st.chat_input("질문을 입력해주세요..."):
     with st.chat_message("assistant"):
         with st.spinner("답변을 생각하고 있어요..."):
             try:
-                # FastAPI 백엔드 API에 전체 대화 기록을 보낼 수 있도록 수정
-                # (지금은 간단히 마지막 질문만 보냅니다)
                 response = requests.post(
                     "http://backend:8000/ask", 
-                    json={"text": prompt}
+                    json={
+                        "session_id": st.session_state.session_id,
+                        "messages": st.session_state.messages
+                    }
                 )
-                response.raise_for_status()
+                ai_response = response.json()
+                st.markdown(ai_response.get("content"))
                 
-                ai_response_content = response.json().get("answer")
-                st.markdown(ai_response_content)
+                st.session_state.messages.append(ai_response)
                 
-                # 3. AI의 답변도 대화 기록에 추가합니다.
-                st.session_state.messages.append({"role": "assistant", "content": ai_response_content})
+                # 백엔드로부터 받은 세션 ID를 업데이트하여 계속 유지
+                st.session_state.session_id = ai_response.get("session_id")
 
             except requests.exceptions.RequestException as e:
                 st.error(f"오류가 발생했습니다: {e}")
@@ -55,4 +62,4 @@ with st.sidebar:
     # '세션 상태 확인'이라는 제목의 접고 펼 수 있는 섹션 생성
     with st.expander("st.session_state.messages 내용 보기"):
         # st.json을 사용하면 리스트와 딕셔너리를 깔끔하게 보여줌
-        st.json(st.session_state.messages)
+        st.json(st.session_state)
