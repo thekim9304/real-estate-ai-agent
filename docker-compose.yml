@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  lab:
+    build: .
+    ports:
+      - "8888:8888"
+    
+    volumes:
+      - .:/home/jovyan/project
+    
+    working_dir: /home/jovyan/project/workspace
+    container_name: jupyter-lab-pro-project
+    
+    command: >
+      jupyter lab
+      --notebook-dir=/home/jovyan/project/workspace
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+      --NotebookApp.token=''
+      --NotebookApp.password=''
