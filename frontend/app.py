@@ -46,13 +46,20 @@ if prompt := st.chat_input("질문을 입력해주세요..."):
                     }
                 )
                 ai_response = response.json()
-                st.markdown(ai_response.get("content"))
                 
-                st.session_state.messages.append(ai_response)
-                
-                # 백엔드로부터 받은 세션 ID를 업데이트하여 계속 유지
+                # 백엔드로부터 받은 세션 ID 업데이트
                 st.session_state.session_id = ai_response.get("session_id")
-
+                
+                # 1. 사용자 화면에는 'agent_answer' (에이전트 답변)를 보여줍니다.
+                st.markdown(ai_response.get("agent_answer"))
+                
+                # 2. 다음 대화를 위해 st.session_state.messages 에는 'summary' (요약본)를 저장합니다.
+                st.session_state.messages.append({
+                    "role": "assistant",
+                    "content": ai_response.get("agent_answer"),
+                    "summary": ai_response.get("summary")
+                })
+                
             except requests.exceptions.RequestException as e:
                 st.error(f"오류가 발생했습니다: {e}")
                 

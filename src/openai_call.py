@@ -5,10 +5,6 @@ from prompts.query_intent import *
 from prompts.gen_response import *
 
 
-def get_today_year_month():
-    today = datetime.today()
-    return today.year, today.month, today.day
-
 def call_openai(client, prompt: dict, model="gpt-4o") -> str:
     response = client.chat.completions.create(
         model=model,
@@ -44,22 +40,7 @@ def extract_json_from_response(response_text: str) -> dict:
         print("JSON 디코딩 에러:", e)
         return {}
 
-def preprocess_query(query):
-    query = query.replace('평데', '평대')
-    return query
-    
-def gen_query_nlu_and_structure(client, query):
-    query = preprocess_query(query)
-    
-    prompt = PROMPT_QUERY_INTENT_V2.copy()
-    year, month, day = get_today_year_month()
-    prompt['system_prompt'] = prompt['system_prompt'].format(year=year, month=month, day=day)
-    prompt['user_prompt'] = prompt['user_prompt'].format(query=query)
-    resp = call_openai(client, prompt)
-
-    return resp
-
-def gen_final_response(client, query_structure, res_data_json):
+def gen_final_answer(client, query_structure, res_data_json):
     prompt = PROMPT_COMMON.copy()
     prompt['user_prompt'] = prompt['user_prompt'].format(
         query_text=query_structure['query_text'],
