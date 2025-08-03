@@ -22,7 +22,6 @@ if "messages" not in st.session_state:
 # --- 대화 기록 표시 ---
 # '기억'에 저장된 모든 메시지를 순서대로 화면에 그립니다.
 for message in st.session_state.messages:
-    # 'role'에 따라 사용자 또는 어시스턴트의 채팅 버블을 사용합니다.
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 

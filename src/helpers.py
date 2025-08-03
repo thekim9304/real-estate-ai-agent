@@ -39,10 +39,10 @@ def get_nlu_result(history: List[Message], session_id: str, data_cache: dict):
 
 def handle_new_query(query: str, session_id:str, data_cache: dict):
     """새로운 API 호출이 필요할 때의 로직을 처리합니다."""
-    agent_answer, use_data_json, query_summary, cache_key = process_query(query)
+    agent_answer, use_data_csv, query_summary, cache_key = process_query(query)
     
     # 캐시에 데이터 저장
-    data_cache.setdefault(session_id, {})[cache_key] = use_data_json
+    data_cache.setdefault(session_id, {})[cache_key] = use_data_csv
     
     return agent_answer, query_summary
 
@@ -57,7 +57,7 @@ def answer_from_cache(params: dict, history: List[Message], session_id: str, dat
         # get()을 사용하여 키가 없을 때의 오류 방지
         data = data_cache.get(session_id, {}).get(key)
         if data:
-            cached_data_str += f"- {key}: {json.dumps(data, ensure_ascii=False)}\n"
+            cached_data_str += f"- {key}: {data}\n"
 
     # 슬라이딩 윈도우로 최근 대화만 포함
     conversation_history_str = ""

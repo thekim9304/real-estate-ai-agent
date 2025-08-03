@@ -32,12 +32,12 @@ def process_query(query: str):
     
         if not sd_sgg_dong_lst:
             return "죄송합니다, 정확한 지역(or건물)명을 입력해주세요. 현재 저희 서비스는 수도권(서울, 경기) 지역의 정보만 제공하고 있습니다.", None, None, None
-
+        
         ###### (실제로는 여기서 사용자에게 후보를 보여주고 선택받는 로직 필요)
         bjd_name = sd_sgg_dong_lst[0] # 테스트를 위해 첫 번째 후보 자동 선택
         query_structure = set_bjd_name(query_structure, bjd_name)
         query_structure = get_bjd_code_v3(query_structure, legal_dong_pdf)
-
+        
         # 데이터 호출 및 후처리
         total_real_estate_pdf = get_real_estate_pdf(query_structure)
         filtered_pdf = postprocess_real_estate(total_real_estate_pdf, query_structure)
@@ -50,7 +50,7 @@ def process_query(query: str):
         res_data_json = prepare_data_for_llm_by_pyeong(query_structure['intent'], filtered_pdf)
         final_answer = gen_final_answer(client, query_structure, res_data_json)
         
-        return final_answer, res_data_json, make_query_summary(query_structure), make_cache_key_name(query_structure)
+        return final_answer, filtered_pdf.to_csv(index=False), make_query_summary(query_structure), make_cache_key_name(query_structure)
 
     except Exception as e:
         # 파이프라인 중간에 알 수 없는 오류 발생 시 처리
