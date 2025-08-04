@@ -2,11 +2,10 @@
 
 사용자의 자연어 질문에 담긴 의도를 파악하고, 공공 데이터 및 지도 API를 활용하여 부동산 관련 정보를 분석하여 생성형 AI를 통해 답변하는 프로젝트
 
-
-<div style="text-align: center;">
-  <img src="이미지_경로_1" width="300" height="200">
-  <img src="이미지_경로_2" width="300" height="200">
-</div>
+<p float="left">
+  <img src="docs/images/시연1.png" width="45%" />
+  <img src="docs/images/시연2.png" width="45%" />
+</p>
 
 
 ## 주요 특징
@@ -38,11 +37,11 @@
 | [v] | 1-5. [LLM] 질의 의도별 응답 생성 |
 | [v] | **2. Web Page 개발** |
 | [v] | 2-1. Session / State 관리 -> streamlit 자체 기능 |
-| [ ] | **3. Backend 개발** |
-| [ ] | 3-1. AI Agent 기능 구현
-| [ ] | **4. AI Agent 티키타카(대화) 기능 개발** |
-| [ ] | 4-1. 대화 기록(History) 관리 및 컨텍스트 유지 |
-| [ ] | 4-2. 후속 질문(Follow-up Question) 이해 및 처리 (e.g., "그럼 거긴 어때?") |
+| [v] | **3. Backend 개발** |
+| [v] | 3-1. AI Agent 기능 구현
+| [v] | **4. AI Agent 티키타카(대화) 기능 개발** |
+| [v] | 4-1. 대화 기록(History) 관리 및 컨텍스트 유지 |
+| [v] | 4-2. 후속 질문(Follow-up Question) 이해 및 처리 (e.g., "그럼 거긴 어때?") |
 | [ ] | 4-3. 불완전한 질의에 대한 되묻기(Clarification) 기능 (e.g., "매매를 찾으시나요, 전세를 찾으시나요?") |
 | [ ] | 4-4. 이전 답변 참조 및 비교/요약 기능 |
 
