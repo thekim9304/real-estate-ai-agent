@@ -37,7 +37,7 @@ def get_nlu_result(history: List[Message], session_id: str, data_cache: dict):
     resp_str = call_openai(client, prompt)
     return extract_json_from_response(resp_str)
 
-def handle_new_query(query: str, session_id:str, data_cache: dict):
+def new_api_call(query: str, session_id:str, data_cache: dict):
     """새로운 API 호출이 필요할 때의 로직을 처리합니다."""
     agent_answer, use_data_csv, query_summary, cache_key = process_query(query)
     
@@ -46,10 +46,9 @@ def handle_new_query(query: str, session_id:str, data_cache: dict):
     
     return agent_answer, query_summary
 
-def answer_from_cache(params: dict, history: List[Message], session_id: str, data_cache: dict):
+def answer_from_cache(nlu_params: dict, conver_history: List[Message], session_id: str, data_cache: dict):
     """캐시 데이터를 사용하여 답변을 생성합니다."""
-    cache_keys = params.get('target_data_keys', [])
-    
+    cache_keys = nlu_params.get('target_data_keys', [])
     print("캐쉬 키 : ", cache_keys)
     
     cached_data_str = ""
@@ -62,7 +61,7 @@ def answer_from_cache(params: dict, history: List[Message], session_id: str, dat
     # 슬라이딩 윈도우로 최근 대화만 포함
     conversation_history_str = ""
     window_size = 4 # 최근 4개 메시지 (2턴)
-    for message in history[-window_size:]:
+    for message in conver_history[-window_size:]:
         conversation_history_str += f'- {message.role}: "{message.content}"\n'
     
     # 캐시 기반 답변 생성 프롬프트 구성
@@ -70,10 +69,10 @@ def answer_from_cache(params: dict, history: List[Message], session_id: str, dat
     prompt['user_prompt'] = prompt['user_prompt'].format(
         conversation_history=conversation_history_str,
         cached_data=cached_data_str,
-        new_query=history[-1].content
+        new_query=conver_history[-1].content
     )
     
     agent_answer = call_openai(client, prompt)
-    query_summary = f"캐시 데이터 {params.get('target_data_keys')}를 사용하여 '{params.get('analysis_type')}' 분석을 수행함."
+    query_summary = f"캐시 데이터 {nlu_params.get('target_data_keys')}를 사용하여 '{nlu_params.get('analysis_type')}' 분석을 수행함."
     
     return agent_answer, query_summary

@@ -2,6 +2,13 @@
 
 사용자의 자연어 질문에 담긴 의도를 파악하고, 공공 데이터 및 지도 API를 활용하여 부동산 관련 정보를 분석하여 생성형 AI를 통해 답변하는 프로젝트
 
+
+<div style="text-align: center;">
+  <img src="이미지_경로_1" width="300" height="200">
+  <img src="이미지_경로_2" width="300" height="200">
+</div>
+
+
 ## 주요 특징
 
 - **의도 파악 및 정보 분석**: 자연어 질의에 대해 NLU(Latural Language Understanding), 구조화 진행 -> 그에 맞는 데이터를 동적으로 조회

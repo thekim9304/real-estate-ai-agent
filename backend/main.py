@@ -38,13 +38,13 @@ def ask_agent(conversation: Conversation):
     last_user_query = history[-1].content
     
     if len(history) <= 1:
-        agent_answer, query_summary = handle_new_query(last_user_query, session_id, data_cache)
+        agent_answer, query_summary = new_api_call(last_user_query, session_id, data_cache)
     else:
         nlu_result = get_nlu_result(history, session_id, data_cache)
         print(json.dumps(nlu_result, indent=4, ensure_ascii=False))
         
         if nlu_result['action'] == 'NEW_API_CALL':
-            agent_answer, query_summary = handle_new_query(last_user_query, session_id, data_cache)
+            agent_answer, query_summary = new_api_call(last_user_query, session_id, data_cache)
         elif nlu_result['action'] == 'ANSWER_FROM_CACHE':
             agent_answer, query_summary = answer_from_cache(nlu_result.get('parameters', {}), history, session_id, data_cache)
         else:
