@@ -45,6 +45,14 @@
 | [ ] | 4-3. 불완전한 질의에 대한 되묻기(Clarification) 기능 (e.g., "매매를 찾으시나요, 전세를 찾으시나요?") |
 | [ ] | 4-4. 이전 답변 참조 및 비교/요약 기능 |
 
+
+| Component | NLU | query → structure | bjd code | real estate postprocess | llm input data prepare | gen new query final answer | gen cached query answer | caching |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Baseline** | ChatGPT | ChatGPT | system | system | system | ChatGPT | ChatGPT | python dictionary |
+| **Adevanced(예정)** |  |  |  |  |  |  |  |  |
+| **Optimized(예정)** |  |  |  |  |  |  |  |  |
+| | | | | | | | | |
+
 ### To-do list
 
 | Status | Task | Exam |
@@ -95,9 +103,11 @@
     docker-compose up --build -d
     ```
 
-4.  **JupyterLab 접속**
-    웹 브라우저를 열고 `http://localhost:8888` 주소로 접속하여 개발을 시작
-    - 주요 실행 코드는 `workspace/main.ipynb`에서 확인
+4.  **서비스 접속**
+    웹 브라우저에서 아래 주소로 접속하여 각 서비스 확인
+    - 메인 웹 페이지 (Streamlit): http://localhost:8501
+    - API 문서 (FastAPI): http://localhost:8000/docs
+    - 개발 환경 (JupyterLab): http://localhost:8888
 
 ### 종료하기
 
